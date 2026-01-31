@@ -16,7 +16,25 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-		git
+    bash-completion
+    tmux
+    fzf
+
+    git
+    delta
+    htop
+    unzip
+    gnutar
+    tree
+    tldr
+    tokei
+
+    traceroute
+    tcpdump
+    netcat
+    curl
+    
+
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -51,6 +69,11 @@
 	programs.neovim = {
 		enable = true;
 		extraPackages = with pkgs; [
+			bash-language-server
+			docker-ls
+			terraform-ls
+			ruff
+			pyright
 			nixd
 			lua-language-server
 		];
