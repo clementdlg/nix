@@ -1,5 +1,5 @@
 FROM alpine:3.23
-ARG REPO="github.com:clementdlg/dotfiles.git"
+ARG REPO="https://github.com/clementdlg/dotfiles.git"
 ARG USER="krem"
 ARG HOME="/home/$USER"
 ARG XDG_CONFIG_HOME="${HOME}/.config"
@@ -9,7 +9,7 @@ RUN	curl -fsSL https://install.determinate.systems/nix \
 	| sh -s -- install linux --no-confirm --init none
 
 RUN adduser -h "$HOME" -D "$USER"
-ADD https://github.com/clementdlg/dotfiles.git "$HOME/.config"
+ADD $REPO "$HOME/.config"
 RUN chown -R "$USER": "$HOME"
 RUN chown -R "$USER": /nix 
 USER $USER
