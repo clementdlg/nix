@@ -4,18 +4,23 @@ ARG USER="krem"
 ARG HOME="/home/$USER"
 ARG XDG_CONFIG_HOME="${HOME}/.config"
 
+# install dependencies
 RUN apk add --no-cache just curl bash
-
 RUN adduser -h "$HOME" -D "$USER"
+
+# add dotfiles
 ADD $REPO "$HOME/.config"
 WORKDIR "$XDG_CONFIG_HOME"
+
+# install nix
 RUN just nix && \
 	chown -R "$USER": "$HOME" && \
 	chown -R "$USER": /nix
 
+# setup user environement and install packages
 USER $USER
 RUN just home-manager
-RUN just nvim && just bashrc
+# RUN just nvim && just bashrc
 
 ENV USER="$USER"
 ENV LANG=en_US.UTF-8
