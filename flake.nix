@@ -28,6 +28,13 @@
 			# neovim setup with treesitter parsers
 			neovimTreesitter = pkgs.neovim.override {
 				configure = {
+					# use the user's config
+					customLuaRC = ''
+						local nvimrc = vim.fn.expand('~/.config/nvim/init.lua')
+						if vim.fn.filereadable(nvimrc) == 1 then
+							dofile(nvimrc)
+						end
+					'';
 					packages.myPlugins = with pkgs.vimPlugins; {
 						start = [
 							(nvim-treesitter.withPlugins (p: [
@@ -35,19 +42,19 @@
 								p.html
 								p.json
 								p.yaml
-								p.bash
-								p.python
-								p.javascript
-								p.go
-								p.rust
 								p.hcl
 								p.just
+								p.bash
+								p.python
+								p.go
+								p.rust
+								p.javascript
 							]))
 						];
 					};
 				};
 			};
-	in
+		in
 	{
 		packages.${system}.default = pkgs.buildEnv {
 			name = "devenv-profile";
@@ -56,6 +63,7 @@
 				ansibleLs
 				neovimTreesitter
 
+				# core utils
 				curl
 				gnutar
 				jq
@@ -65,7 +73,6 @@
 				fzf
 				git
 				tmux
-				# neovim
 
 				# fancy rust utils
 				delta
@@ -83,20 +90,23 @@
 				ruff
 				pyright
 
-				# ansible dev
-				# ansible-lint
-
 				# lua
 				lua-language-server
 				stylua
 
-				# DevOps
+
+				# container tools
 				# docker-language-server
-				yaml-language-server
+				kubectl
+
+				# infra
+				opentofu
 				terraform-ls
 				gitlab-ci-local
-				crane
-				kubectl
+
+				# go
+				go
+				gopls
 			];
 		};
 	};
